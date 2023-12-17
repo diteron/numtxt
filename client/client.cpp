@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 
 #pragma comment(lib, "ws2_32.lib")
 #include <Ws2tcpip.h>
@@ -8,34 +8,34 @@
 int main()
 {
     setlocale(LC_ALL, "Rus");
-    // Инициализация использования системы сокетов
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ СЃРёСЃС‚РµРјС‹ СЃРѕРєРµС‚РѕРІ
     WSAData wsaData;
     WORD dllVersion = MAKEWORD(2, 2);
     if (WSAStartup(dllVersion, &wsaData) != 0) {
-        std::cout << "Ошибка инициализации Winsock!\n";
+        std::cout << "РћС€РёР±РєР° РёРЅРёС†РёР°Р»РёР·Р°С†РёРё Winsock!\n";
         return 1;
     }
 
-    // Структура адреса сокета
+    // РЎС‚СЂСѓРєС‚СѓСЂР° Р°РґСЂРµСЃР° СЃРѕРєРµС‚Р°
     SOCKADDR_IN addr;
     addr.sin_port = htons(1111);
     addr.sin_family = AF_INET;
     InetPton(AF_INET, L"127.0.0.1", &(addr.sin_addr.s_addr));
     int addrLen = sizeof(addr);
 
-    // Создание сокета для соединения с сервером
+    // РЎРѕР·РґР°РЅРёРµ СЃРѕРєРµС‚Р° РґР»СЏ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµСЂРІРµСЂРѕРј
     SOCKET sockConnect = socket(AF_INET, SOCK_STREAM, NULL);
     if (sockConnect == INVALID_SOCKET) {
-        std::cout << "Ошибка создания сокета\n";
+        std::cout << "РћС€РёР±РєР° СЃРѕР·РґР°РЅРёСЏ СЃРѕРєРµС‚Р°\n";
         return 1;
     }
     if (connect(sockConnect, (SOCKADDR*) &addr, addrLen) != 0) {
-        std::cout << "Ошибка соединения с сервером!\n";
+        std::cout << "РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ СЃРµСЂРІРµСЂРѕРј!\n";
         return 1;
     }
-    std::cout << "Соединение с сервером успешно установлено\n";
+    std::cout << "РЎРѕРµРґРёРЅРµРЅРёРµ СЃ СЃРµСЂРІРµСЂРѕРј СѓСЃРїРµС€РЅРѕ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ\n";
 
-    // Отправка серверу строки с числом и получение числа прописью
+    // РћС‚РїСЂР°РІРєР° СЃРµСЂРІРµСЂСѓ СЃС‚СЂРѕРєРё СЃ С‡РёСЃР»РѕРј Рё РїРѕР»СѓС‡РµРЅРёРµ С‡РёСЃР»Р° РїСЂРѕРїРёСЃСЊСЋ
     char buffer[BUFF_SIZE];
     while (true) {
         memset(buffer, 0, sizeof(buffer));
@@ -45,11 +45,11 @@ int main()
         if (strcmp(buffer, "exit") == 0) { break; }
 
         if (send(sockConnect, buffer, sizeof(buffer), NULL) == SOCKET_ERROR) {
-            std::cout << "Ошибка отправки данных в сокет\n";
+            std::cout << "РћС€РёР±РєР° РѕС‚РїСЂР°РІРєРё РґР°РЅРЅС‹С… РІ СЃРѕРєРµС‚\n";
             continue;
         }
         if (recv(sockConnect, buffer, sizeof(buffer), NULL) == SOCKET_ERROR) {
-            std::cout << "Ошибка получения данных из сокета\n";
+            std::cout << "РћС€РёР±РєР° РїРѕР»СѓС‡РµРЅРёСЏ РґР°РЅРЅС‹С… РёР· СЃРѕРєРµС‚Р°\n";
             continue;
         }
 

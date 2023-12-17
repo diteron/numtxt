@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include "numtxtconverter.h"
 
 std::string NumTxtConverter::llongToText(long long num, bool masculine, const std::string& one,
@@ -11,16 +11,16 @@ std::string NumTxtConverter::llongToText(long long num, bool masculine, const st
 
 std::string NumTxtConverter::decimalToText(std::string numStr)
 {
-    if (!isCorrectString(numStr)) { return std::string("Строка содержит некорректное число!"); }
+    if (!isCorrectString(numStr)) { return std::string("РЎС‚СЂРѕРєР° СЃРѕРґРµСЂР¶РёС‚ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕРµ С‡РёСЃР»Рѕ!"); }
 
     long long integerPart = 0;
-    if (!getIntegerPart(numStr, &integerPart)) {    // Получение целой части и проверка её на корректность
-        return std::string("Строка содержит некорректное число!");
+    if (!getIntegerPart(numStr, &integerPart)) {    // РџРѕР»СѓС‡РµРЅРёРµ С†РµР»РѕР№ С‡Р°СЃС‚Рё Рё РїСЂРѕРІРµСЂРєР° РµС‘ РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ
+        return std::string("РЎС‚СЂРѕРєР° СЃРѕРґРµСЂР¶РёС‚ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕРµ С‡РёСЃР»Рѕ!");
     }
 
     std::string decimalPart = std::string();
-    if (!getDecimalPart(numStr, decimalPart)) {     // Получение десятичной части и проверка её на корректность
-        return std::string("Строка содержит некорректное число!");
+    if (!getDecimalPart(numStr, decimalPart)) {     // РџРѕР»СѓС‡РµРЅРёРµ РґРµСЃСЏС‚РёС‡РЅРѕР№ С‡Р°СЃС‚Рё Рё РїСЂРѕРІРµСЂРєР° РµС‘ РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ
+        return std::string("РЎС‚СЂРѕРєР° СЃРѕРґРµСЂР¶РёС‚ РЅРµРєРѕСЂСЂРµРєС‚РЅРѕРµ С‡РёСЃР»Рѕ!");
     }
     bool isDecimalPartEmpty = decimalPart.empty();
 
@@ -31,21 +31,21 @@ std::string NumTxtConverter::decimalToText(std::string numStr)
     }
 
     std::string numTxt = std::string();
-    if (integerPart == 0) { numTxt.append("ноль "); }
-    if (integerPart % 1000 != 0) {      // Обработка чисел отличных от 1 000, 10 000, 100 000 и т.п.
+    if (integerPart == 0) { numTxt.append("РЅРѕР»СЊ "); }
+    if (integerPart % 1000 != 0) {      // РћР±СЂР°Р±РѕС‚РєР° С‡РёСЃРµР» РѕС‚Р»РёС‡РЅС‹С… РѕС‚ 1 000, 10 000, 100 000 Рё С‚.Рї.
         if (isDecimalPartEmpty) {
             numTxt.append(llongToText(integerPart, true, "", "", ""));
         }
         else {
-            numTxt.append(llongToText(integerPart, false, "целая", "целых", "целых"));
+            numTxt.append(llongToText(integerPart, false, "С†РµР»Р°СЏ", "С†РµР»С‹С…", "С†РµР»С‹С…"));
         }
     }
-    else {      // Обработка 1 000, 10 000, 100 000 и т.п.
+    else {      // РћР±СЂР°Р±РѕС‚РєР° 1 000, 10 000, 100 000 Рё С‚.Рї.
         numTxt.append(llongToText(integerPart, false, "", "", ""));
-        if (!isDecimalPartEmpty) { numTxt.append("целых "); }
+        if (!isDecimalPartEmpty) { numTxt.append("С†РµР»С‹С… "); }
     }
 
-    if (negativeNum) { numTxt.insert(0, "минус "); }
+    if (negativeNum) { numTxt.insert(0, "РјРёРЅСѓСЃ "); }
     if (!isDecimalPartEmpty) { addDecimalPartTxt(decimalPart, numTxt); }
 
     return numTxt;
@@ -58,11 +58,11 @@ bool NumTxtConverter::isCorrectString(const std::string& numStr)
     while (it != numStr.end() && isNumberPart(*it)) {
         if (*it == ',') {
             ++commaCnt;
-            if (commaCnt > 1) { break; }    // Запятая может быть только одна
+            if (commaCnt > 1) { break; }    // Р—Р°РїСЏС‚Р°СЏ РјРѕР¶РµС‚ Р±С‹С‚СЊ С‚РѕР»СЊРєРѕ РѕРґРЅР°
         }
-        if (*it == '-' && (it != numStr.begin()                 // Минус может быть только в начале
-                           || numStr.length() == 1              // Один минус вводить нельзя 
-                           || !std::isdigit(*(it + 1)))) {      // После минуса может идти только цифра 
+        if (*it == '-' && (it != numStr.begin()                 // РњРёРЅСѓСЃ РјРѕР¶РµС‚ Р±С‹С‚СЊ С‚РѕР»СЊРєРѕ РІ РЅР°С‡Р°Р»Рµ
+                           || numStr.length() == 1              // РћРґРёРЅ РјРёРЅСѓСЃ РІРІРѕРґРёС‚СЊ РЅРµР»СЊР·СЏ 
+                           || !std::isdigit(*(it + 1)))) {      // РџРѕСЃР»Рµ РјРёРЅСѓСЃР° РјРѕР¶РµС‚ РёРґС‚Рё С‚РѕР»СЊРєРѕ С†РёС„СЂР° 
             break; 
         }
         ++it;
@@ -86,7 +86,7 @@ bool NumTxtConverter::getIntegerPart(const std::string& numStr, long long* dest)
         integerPartStr = integerPartStr.substr(0, commaInd);
     }
     if (integerPartStr.length() > maxIntegerPartNums) {
-        std::cout << "Слишком большая целая часть!\n";
+        std::cout << "РЎР»РёС€РєРѕРј Р±РѕР»СЊС€Р°СЏ С†РµР»Р°СЏ С‡Р°СЃС‚СЊ!\n";
         return false;
     }
 
@@ -103,15 +103,15 @@ bool NumTxtConverter::getDecimalPart(const std::string& numStr, std::string& des
     std::string decimalPartStr = numStr;
 
     size_t commaInd = decimalPartStr.find(',');
-    if (commaInd != std::string::npos) {    // Если запятая есть в числе
+    if (commaInd != std::string::npos) {    // Р•СЃР»Рё Р·Р°РїСЏС‚Р°СЏ РµСЃС‚СЊ РІ С‡РёСЃР»Рµ
         decimalPartStr = decimalPartStr.substr(commaInd + 1, decimalPartStr.length());
     }
-    else {                                  // Иначе, запятая не найдена
+    else {                                  // РРЅР°С‡Рµ, Р·Р°РїСЏС‚Р°СЏ РЅРµ РЅР°Р№РґРµРЅР°
         decimalPartStr.erase();
     }
 
     if (decimalPartStr.length() > maxDecimalPartNums) {
-        std::cout << "Слишком большая дробная часть!\n";
+        std::cout << "РЎР»РёС€РєРѕРј Р±РѕР»СЊС€Р°СЏ РґСЂРѕР±РЅР°СЏ С‡Р°СЃС‚СЊ!\n";
         return false;
     }
 
@@ -122,15 +122,15 @@ bool NumTxtConverter::getDecimalPart(const std::string& numStr, std::string& des
 void NumTxtConverter::addThousands(long long num, std::string & numStr)
 {
     num /= 1000;
-    numStr.insert(0, lastThreeDigitsToTxt(num, false, "тысяча", "тысячи", "тысяч"));
+    numStr.insert(0, lastThreeDigitsToTxt(num, false, "С‚С‹СЃСЏС‡Р°", "С‚С‹СЃСЏС‡Рё", "С‚С‹СЃСЏС‡"));
     num /= 1000;
-    numStr.insert(0, lastThreeDigitsToTxt(num, true, "миллион", "миллиона", "миллионов"));
+    numStr.insert(0, lastThreeDigitsToTxt(num, true, "РјРёР»Р»РёРѕРЅ", "РјРёР»Р»РёРѕРЅР°", "РјРёР»Р»РёРѕРЅРѕРІ"));
     num /= 1000;
-    numStr.insert(0, lastThreeDigitsToTxt(num, true, "миллиард", "миллиарда", "миллиардов"));
+    numStr.insert(0, lastThreeDigitsToTxt(num, true, "РјРёР»Р»РёР°СЂРґ", "РјРёР»Р»РёР°СЂРґР°", "РјРёР»Р»РёР°СЂРґРѕРІ"));
     num /= 1000;
-    numStr.insert(0, lastThreeDigitsToTxt(num, true, "триллион", "триллиона", "триллионов"));
+    numStr.insert(0, lastThreeDigitsToTxt(num, true, "С‚СЂРёР»Р»РёРѕРЅ", "С‚СЂРёР»Р»РёРѕРЅР°", "С‚СЂРёР»Р»РёРѕРЅРѕРІ"));
     num /= 1000;
-    numStr.insert(0, lastThreeDigitsToTxt(num, true, "триллиард", "триллиарда", "триллиардов"));
+    numStr.insert(0, lastThreeDigitsToTxt(num, true, "С‚СЂРёР»Р»РёР°СЂРґ", "С‚СЂРёР»Р»РёР°СЂРґР°", "С‚СЂРёР»Р»РёР°СЂРґРѕРІ"));
 }
 
 void NumTxtConverter::addDecimalPartTxt(const std::string& decimalPartStr, std::string& numStr)
@@ -139,46 +139,46 @@ void NumTxtConverter::addDecimalPartTxt(const std::string& decimalPartStr, std::
 
     switch (decimalPartStr.length()) {
         case 1:
-            numStr.append(llongToText(decimalPart, false, "десятая", "десятых", "десятых"));
+            numStr.append(llongToText(decimalPart, false, "РґРµСЃСЏС‚Р°СЏ", "РґРµСЃСЏС‚С‹С…", "РґРµСЃСЏС‚С‹С…"));
             break;
         case 2:
-            numStr.append(llongToText(decimalPart, false, "сотая", "сотых", "сотых"));
+            numStr.append(llongToText(decimalPart, false, "СЃРѕС‚Р°СЏ", "СЃРѕС‚С‹С…", "СЃРѕС‚С‹С…"));
             break;
         case 3:
-            numStr.append(llongToText(decimalPart, false, "тысячная", "тысячных", "тысячных"));
+            numStr.append(llongToText(decimalPart, false, "С‚С‹СЃСЏС‡РЅР°СЏ", "С‚С‹СЃСЏС‡РЅС‹С…", "С‚С‹СЃСЏС‡РЅС‹С…"));
             break;
         case 4:
-            numStr.append(llongToText(decimalPart, false, "десятитысячная", "десятитысячных", "десятитысячных"));
+            numStr.append(llongToText(decimalPart, false, "РґРµСЃСЏС‚РёС‚С‹СЃСЏС‡РЅР°СЏ", "РґРµСЃСЏС‚РёС‚С‹СЃСЏС‡РЅС‹С…", "РґРµСЃСЏС‚РёС‚С‹СЃСЏС‡РЅС‹С…"));
             break;
         case 5:
-            numStr.append(llongToText(decimalPart, false, "стотысячная", "стотысячных", "стотысячных"));
+            numStr.append(llongToText(decimalPart, false, "СЃС‚РѕС‚С‹СЃСЏС‡РЅР°СЏ", "СЃС‚РѕС‚С‹СЃСЏС‡РЅС‹С…", "СЃС‚РѕС‚С‹СЃСЏС‡РЅС‹С…"));
             break;
         case 6:
-            numStr.append(llongToText(decimalPart, false, "миллионная", "миллионных", "миллионных"));
+            numStr.append(llongToText(decimalPart, false, "РјРёР»Р»РёРѕРЅРЅР°СЏ", "РјРёР»Р»РёРѕРЅРЅС‹С…", "РјРёР»Р»РёРѕРЅРЅС‹С…"));
             break;
         case 7:
-            numStr.append(llongToText(decimalPart, false, "десятимиллионная", "десятимиллионных", "десятимиллионных"));
+            numStr.append(llongToText(decimalPart, false, "РґРµСЃСЏС‚РёРјРёР»Р»РёРѕРЅРЅР°СЏ", "РґРµСЃСЏС‚РёРјРёР»Р»РёРѕРЅРЅС‹С…", "РґРµСЃСЏС‚РёРјРёР»Р»РёРѕРЅРЅС‹С…"));
             break;
         case 8:
-            numStr.append(llongToText(decimalPart, false, "стомиллионная", "стомиллионных", "стомиллионных"));
+            numStr.append(llongToText(decimalPart, false, "СЃС‚РѕРјРёР»Р»РёРѕРЅРЅР°СЏ", "СЃС‚РѕРјРёР»Р»РёРѕРЅРЅС‹С…", "СЃС‚РѕРјРёР»Р»РёРѕРЅРЅС‹С…"));
             break;
         case 9:
-            numStr.append(llongToText(decimalPart, false, "миллиардная", "миллиардных", "миллиардных"));
+            numStr.append(llongToText(decimalPart, false, "РјРёР»Р»РёР°СЂРґРЅР°СЏ", "РјРёР»Р»РёР°СЂРґРЅС‹С…", "РјРёР»Р»РёР°СЂРґРЅС‹С…"));
             break;
         case 10:
-            numStr.append(llongToText(decimalPart, false, "десятимиллиардная", "десятимиллиардных", "десятимиллиардных"));
+            numStr.append(llongToText(decimalPart, false, "РґРµСЃСЏС‚РёРјРёР»Р»РёР°СЂРґРЅР°СЏ", "РґРµСЃСЏС‚РёРјРёР»Р»РёР°СЂРґРЅС‹С…", "РґРµСЃСЏС‚РёРјРёР»Р»РёР°СЂРґРЅС‹С…"));
             break;
         case 11:
-            numStr.append(llongToText(decimalPart, false, "стомиллиардная", "стомиллиардных", "стомиллиардных"));
+            numStr.append(llongToText(decimalPart, false, "СЃС‚РѕРјРёР»Р»РёР°СЂРґРЅР°СЏ", "СЃС‚РѕРјРёР»Р»РёР°СЂРґРЅС‹С…", "СЃС‚РѕРјРёР»Р»РёР°СЂРґРЅС‹С…"));
             break;
         case 12:
-            numStr.append(llongToText(decimalPart, false, "триллионая", "триллионных", "триллионных"));
+            numStr.append(llongToText(decimalPart, false, "С‚СЂРёР»Р»РёРѕРЅР°СЏ", "С‚СЂРёР»Р»РёРѕРЅРЅС‹С…", "С‚СЂРёР»Р»РёРѕРЅРЅС‹С…"));
             break;
         case 13:
-            numStr.append(llongToText(decimalPart, false, "десятитриллионая", "десятитриллионных", "десятитриллионных"));
+            numStr.append(llongToText(decimalPart, false, "РґРµСЃСЏС‚РёС‚СЂРёР»Р»РёРѕРЅР°СЏ", "РґРµСЃСЏС‚РёС‚СЂРёР»Р»РёРѕРЅРЅС‹С…", "РґРµСЃСЏС‚РёС‚СЂРёР»Р»РёРѕРЅРЅС‹С…"));
             break;
         case 14:
-            numStr.append(llongToText(decimalPart, false, "стотриллионая", "стотриллионных", "стотриллионных"));
+            numStr.append(llongToText(decimalPart, false, "СЃС‚РѕС‚СЂРёР»Р»РёРѕРЅР°СЏ", "СЃС‚РѕС‚СЂРёР»Р»РёРѕРЅРЅС‹С…", "СЃС‚РѕС‚СЂРёР»Р»РёРѕРЅРЅС‹С…"));
             break;
         default:
             numStr.append("");
@@ -189,17 +189,17 @@ std::string NumTxtConverter::lastThreeDigitsToTxt(long long num, bool masculine,
                                                   const std::string& twoToFour, const std::string& fiveToNine)
 {
     std::array<std::string, 20> zeroTo19 = {
-        "", "один ", "два ", "три ", "четыре ",
-        "пять ", "шесть ", "семь ", "восемь ", "девять ",
-        "десять ", "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ",
-        "пятнадцать ", "шестнадцать ", "семнадцать ", "восемнадцать ", "девятнадцать "
+        "", "РѕРґРёРЅ ", "РґРІР° ", "С‚СЂРё ", "С‡РµС‚С‹СЂРµ ",
+        "РїСЏС‚СЊ ", "С€РµСЃС‚СЊ ", "СЃРµРјСЊ ", "РІРѕСЃРµРјСЊ ", "РґРµРІСЏС‚СЊ ",
+        "РґРµСЃСЏС‚СЊ ", "РѕРґРёРЅРЅР°РґС†Р°С‚СЊ ", "РґРІРµРЅР°РґС†Р°С‚СЊ ", "С‚СЂРёРЅР°РґС†Р°С‚СЊ ", "С‡РµС‚С‹СЂРЅР°РґС†Р°С‚СЊ ",
+        "РїСЏС‚РЅР°РґС†Р°С‚СЊ ", "С€РµСЃС‚РЅР°РґС†Р°С‚СЊ ", "СЃРµРјРЅР°РґС†Р°С‚СЊ ", "РІРѕСЃРµРјРЅР°РґС†Р°С‚СЊ ", "РґРµРІСЏС‚РЅР°РґС†Р°С‚СЊ "
     };
 
-    long long lastThreeDigitsNum = num % 1000;      // Число из последних трех цифр
+    long long lastThreeDigitsNum = num % 1000;      // Р§РёСЃР»Рѕ РёР· РїРѕСЃР»РµРґРЅРёС… С‚СЂРµС… С†РёС„СЂ
     if (lastThreeDigitsNum == 0) { return ""; }
-    if (!masculine) {                               // Замена на женский род 
-        zeroTo19[1] = "одна ";                      // (например для вывода числа 1002,5 - одна тысяча две целых пять десятых)
-        zeroTo19[2] = "две ";
+    if (!masculine) {                               // Р—Р°РјРµРЅР° РЅР° Р¶РµРЅСЃРєРёР№ СЂРѕРґ 
+        zeroTo19[1] = "РѕРґРЅР° ";                      // (РЅР°РїСЂРёРјРµСЂ РґР»СЏ РІС‹РІРѕРґР° С‡РёСЃР»Р° 1002,5 - РѕРґРЅР° С‚С‹СЃСЏС‡Р° РґРІРµ С†РµР»С‹С… РїСЏС‚СЊ РґРµСЃСЏС‚С‹С…)
+        zeroTo19[2] = "РґРІРµ ";
     }
 
     std::string numToText = std::string(hundreds[lastThreeDigitsNum / 100]);
@@ -207,7 +207,7 @@ std::string NumTxtConverter::lastThreeDigitsToTxt(long long num, bool masculine,
     if (lastThreeDigitsNum % 100 < 20) {
         numToText.append(zeroTo19[lastThreeDigitsNum % 100]);
     }
-    else {      // От 20 до 100
+    else {      // РћС‚ 20 РґРѕ 100
         numToText.append(tens[lastThreeDigitsNum % 100 / 10]);
         numToText.append(zeroTo19[lastThreeDigitsNum % 10]);
     }
@@ -222,10 +222,10 @@ std::string NumTxtConverter::lastThreeDigitsToTxt(long long num, bool masculine,
 std::string NumTxtConverter::txtDependingOnNum(long long num, const std::string& one,
                                                const std::string& twoToFour, const std::string& fiveToNine)
 {
-    long long temp = (num % 100 > 20) ? num % 10 : num % 20;    // Выбор формы числа, например:
+    long long temp = (num % 100 > 20) ? num % 10 : num % 20;    // Р’С‹Р±РѕСЂ С„РѕСЂРјС‹ С‡РёСЃР»Р°, РЅР°РїСЂРёРјРµСЂ:
     switch (temp) {
-        case 1: return one;                                     // одна тысячА
-        case 2: case 3: case 4: return twoToFour;               // три тысячИ
-        default: return fiveToNine;                             // шесть тысяЧ
+        case 1: return one;                                     // РѕРґРЅР° С‚С‹СЃСЏС‡Рђ
+        case 2: case 3: case 4: return twoToFour;               // С‚СЂРё С‚С‹СЃСЏС‡Р
+        default: return fiveToNine;                             // С€РµСЃС‚СЊ С‚С‹СЃСЏР§
     }
 }

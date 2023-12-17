@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <cstring>
 #include "numtxtconverter.h"
 
@@ -10,65 +10,65 @@
 int main()
 {
     setlocale(LC_ALL, "Rus");
-    // Инициализация использования системы сокетов
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ СЃРёСЃС‚РµРјС‹ СЃРѕРєРµС‚РѕРІ
     WSAData wsaData;
     WORD dllVersion = MAKEWORD(2, 2);
     if (WSAStartup(dllVersion, &wsaData) != 0) {
-        std::cout << "Ошибка инициализации Winsock\n";
+        std::cout << "РћС€РёР±РєР° РёРЅРёС†РёР°Р»РёР·Р°С†РёРё Winsock\n";
         return 1;
     }
 
-    // Структура адреса сокета
+    // РЎС‚СЂСѓРєС‚СѓСЂР° Р°РґСЂРµСЃР° СЃРѕРєРµС‚Р°
     SOCKADDR_IN addr;
     addr.sin_port = htons(1111);
     addr.sin_family = AF_INET;
     InetPton(AF_INET, L"127.0.0.1", &(addr.sin_addr.s_addr));
     int addrLen = sizeof(addr);
 
-    // Создание сокета и привязка адреса
+    // РЎРѕР·РґР°РЅРёРµ СЃРѕРєРµС‚Р° Рё РїСЂРёРІСЏР·РєР° Р°РґСЂРµСЃР°
     SOCKET sockListen = socket(AF_INET, SOCK_STREAM, NULL);
     if (sockListen == INVALID_SOCKET) {
-        std::cout << "Ошибка создания сокета\n";
+        std::cout << "РћС€РёР±РєР° СЃРѕР·РґР°РЅРёСЏ СЃРѕРєРµС‚Р°\n";
         return 1;
     }
     if (bind(sockListen, (SOCKADDR*) &addr, addrLen) != 0) {
         closesocket(sockListen);
-        std::cout << "Ошибка при привязке сокета\n";
+        std::cout << "РћС€РёР±РєР° РїСЂРё РїСЂРёРІСЏР·РєРµ СЃРѕРєРµС‚Р°\n";
         return 1;
     }
     if (listen(sockListen, SOMAXCONN) != 0) {
-        std::cout << "Ошибка при включении режима прослушивания\n";
+        std::cout << "РћС€РёР±РєР° РїСЂРё РІРєР»СЋС‡РµРЅРёРё СЂРµР¶РёРјР° РїСЂРѕСЃР»СѓС€РёРІР°РЅРёСЏ\n";
         closesocket(sockListen);
         return 1;
     }
 
-    // Основной цикл сервера
+    // РћСЃРЅРѕРІРЅРѕР№ С†РёРєР» СЃРµСЂРІРµСЂР°
     SOCKET sockClient = INVALID_SOCKET;
     while (true) {
-        // Сокет для соединения с клиентом
+        // РЎРѕРєРµС‚ РґР»СЏ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ РєР»РёРµРЅС‚РѕРј
         sockClient = accept(sockListen, (SOCKADDR*) &addr, &addrLen);
         if (sockClient == INVALID_SOCKET) {
-            std::cout << "Ошибка соединения с клиентом!\n";
+            std::cout << "РћС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ РєР»РёРµРЅС‚РѕРј!\n";
             continue;
         }
-        std::cout << "Соединение с новым клиентом успешно установлено\n";
+        std::cout << "РЎРѕРµРґРёРЅРµРЅРёРµ СЃ РЅРѕРІС‹Рј РєР»РёРµРЅС‚РѕРј СѓСЃРїРµС€РЅРѕ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ\n";
 
-        // Обслуживание соединения (получение строки с числом и вывод строки прописью)
+        // РћР±СЃР»СѓР¶РёРІР°РЅРёРµ СЃРѕРµРґРёРЅРµРЅРёСЏ (РїРѕР»СѓС‡РµРЅРёРµ СЃС‚СЂРѕРєРё СЃ С‡РёСЃР»РѕРј Рё РІС‹РІРѕРґ СЃС‚СЂРѕРєРё РїСЂРѕРїРёСЃСЊСЋ)
         NumTxtConverter converter;
         char buffer[BUFF_SIZE];
         while (true) {
             memset(buffer, 0, sizeof(buffer));
             if (recv(sockClient, buffer, sizeof(buffer), NULL) == SOCKET_ERROR) {
-                std::cout << "Соединение с клиентом разорвано\n";
+                std::cout << "РЎРѕРµРґРёРЅРµРЅРёРµ СЃ РєР»РёРµРЅС‚РѕРј СЂР°Р·РѕСЂРІР°РЅРѕ\n";
                 break;
             }
             std::string numNxt = converter.decimalToText(buffer);
-            strcpy_s(buffer, sizeof(buffer), numNxt.c_str()); // Сохранение результата конвертации в буфер
+            strcpy_s(buffer, sizeof(buffer), numNxt.c_str()); // РЎРѕС…СЂР°РЅРµРЅРёРµ СЂРµР·СѓР»СЊС‚Р°С‚Р° РєРѕРЅРІРµСЂС‚Р°С†РёРё РІ Р±СѓС„РµСЂ
             
             std::cout << buffer << "\n";
             std::cout << "====================================================================" << "\n";
             if (send(sockClient, buffer, sizeof(buffer), NULL) == SOCKET_ERROR) {
-                std::cout << "Ошибка отправки данных в сокет\n";
+                std::cout << "РћС€РёР±РєР° РѕС‚РїСЂР°РІРєРё РґР°РЅРЅС‹С… РІ СЃРѕРєРµС‚\n";
                 break;
             }
         }
